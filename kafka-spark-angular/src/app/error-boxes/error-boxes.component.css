@@ -1,0 +1,18 @@
+.bi-exclamation-square-fill {
+  transition: 0.6;
+  font-size: 29px !important;
+  animation: scale-up-center 2s linear infinite;
+  color: #d42525 !important;
+}
+
+@keyframes scale-up-center {
+  0% {
+    text-shadow: 0px 0px 10px #e7303000;
+  }
+  50% {
+    text-shadow: 1px 1px 10px rgb(248, 17, 17);
+  }
+  100% {
+    text-shadow: 0px 0px 10px #e7303000;
+  }
+}

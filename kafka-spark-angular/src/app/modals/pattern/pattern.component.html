@@ -1,0 +1,82 @@
+<div
+  class="modal fade"
+  id="patternModal"
+  tabindex="-1"
+  aria-labelledby="patternModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="patternModalLabel">Add Log Pattern</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          id="close-patter-modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <!-- Angular Form -->
+        <form #patternForm="ngForm" (ngSubmit)="onSubmit(patternForm)">
+          <div class="mb-3">
+            <label for="patternName" class="form-label"
+              >Pattern Name <small>(example : data-center-1)</small></label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="patternName"
+              name="pattern_name"
+              placeholder="Enter pattern name"
+              required
+              ngModel
+            />
+          </div>
+          <div class="mb-3">
+            <label for="logFilter" class="form-label">Log Filter</label>
+            <textarea
+              class="form-control"
+              id="logFilter"
+              name=""
+              rows="3"
+              name="log_filter"
+              placeholder="Enter log filter regex"
+              required
+              ngModel
+            ></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="errorFilter" class="form-label">Error Filter</label>
+            <textarea
+              class="form-control"
+              id="errorFilter"
+              name="error_filter"
+              rows="3"
+              placeholder="Enter error filter regex"
+              required
+              ngModel
+            ></textarea>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-danger"
+              data-bs-dismiss="modal"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="patternForm.invalid"
+            >
+              Save Pattern
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

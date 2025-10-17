@@ -1,0 +1,42 @@
+<div class="w-100 p-3">
+  <div class="card m-0 mb-1 shadow">
+    <div
+      class="d-flex align-items-center justify-content-around flex-row p-3"
+      *ngIf="indexDetails"
+    >
+      <p>
+        <strong>Health:</strong>
+        <span
+          [ngClass]="{
+            'text-bg-success': indexDetails.health === 'green',
+            'text-bg-warning': indexDetails.health === 'yellow',
+            'text-bg-danger': indexDetails.health === 'red'
+          }"
+          class="ms-2 px-2 py-1 rounded"
+        >
+          {{ indexDetails.health }}
+        </span>
+      </p>
+      <p><strong>Status:</strong> {{ indexDetails.status }}</p>
+      <p><strong>Document Count:</strong> {{ indexDetails["docs.count"] }}</p>
+      <p><strong>Store Size:</strong> {{ indexDetails["store.size"] }}</p>
+    </div>
+  </div>
+  <div class="card">
+    <div class="container mt-4">
+      <h3 class="text-primary m-2">Index : {{ indexName }}</h3>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th *ngFor="let column of displayedColumns">{{ column }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of data">
+            <td *ngFor="let column of displayedColumns">{{ row[column] }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

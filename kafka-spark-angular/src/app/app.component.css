@@ -1,0 +1,10 @@
+.rightSide {
+  width: calc(100vw - 280px);
+  float: right;
+  transition: cubic-bezier(0.895, 0.03, 0.685, 0.22);
+}
+@media only screen and (max-width: 1200px) {
+  .rightSide {
+    width: 100vw;
+  }
+}

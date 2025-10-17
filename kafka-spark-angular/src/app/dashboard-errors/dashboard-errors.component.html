@@ -1,0 +1,15 @@
+<div class="w-100 p-3">
+  <a
+    class="position-absolute top-50 end-0 translate-middle-y btn btn-primary btn-sm px-1 me-2"
+    [routerLink]="['/errors-info', indexName]"
+  >
+    more info
+  </a>
+  <iframe
+    class="w-100 card shadow-lg"
+    style="height: 96vh"
+    [src]="dashboard_src"
+    height="600"
+    width="800"
+  ></iframe>
+</div>

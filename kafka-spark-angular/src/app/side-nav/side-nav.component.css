@@ -1,0 +1,11 @@
+.brand-logo {
+  font-size: 26px;
+}
+@media print {
+  aside {
+    display: none;
+  }
+}
+.left-sidebar {
+  width: 270px !important;
+}

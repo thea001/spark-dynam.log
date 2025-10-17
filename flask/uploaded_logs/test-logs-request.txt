@@ -1,0 +1,2 @@
+LOGS : "Date":"^\d{4}-\d{2}-\d{2}","Time":"\d{2}:\d{2}:\d{2},\d{3}","Level":"(INFO|DEBUG|ERROR|WARN|FATAL)","Component":""([a-zA-Z.]+):","Content":": (.+)"
+ERRORS : "error_type":"(java\.\S+Exception)","local_host":"Call From ([a-zA-Z0-9.-]+)","destination_host":"to ([a-zA-Z0-9.-]+:\d+)"

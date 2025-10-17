@@ -1,0 +1,101 @@
+<div *ngIf="indices?.length > 0; else noData" class="container mt-2">
+  <div
+    class="card mb-2 w-100 d-flex flex-row align-items-center justify-content-between p-3 mb-4"
+  >
+    <div class="d-flex align-items-start-center">
+      <label for="customRange2" class="form-label" style="width: 160px"
+        >Batch Speed</label
+      >
+      <input
+        type="range"
+        class="form-range"
+        min="0"
+        max="5"
+        id="customRange2"
+      />
+    </div>
+
+    <div>
+      <span class="text-dark">
+        pattern : {{ indexName }} (
+        <small class="text-success">
+          Refreshing Data After : {{ remainingTime }}</small
+        > </span
+      >)
+    </div>
+
+    <div class="form-check form-switch">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        role="switch"
+        id="flexSwitchCheckDefault"
+        [(ngModel)]="isAllowedEmail"
+      />
+      <label class="form-check-label" for="flexSwitchCheckDefault"
+        >Send E-mail</label
+      >
+    </div>
+  </div>
+
+  <div class="row p-3">
+    <div class="col-md-4" *ngFor="let index of indices">
+      <div
+        style="max-height: 250px !important; min-height: 250px"
+        class="card mb-3 border border-2"
+        [ngClass]="{
+          'border-success': index?.health === 'green',
+          'border-warning': index?.health === 'yellow',
+          'border-danger': index?.health === 'red'
+        }"
+      >
+        <div class="card-header">
+          <div
+            class="position-absolute top-0 start-100 translate-middle px-2 rounded-2 shadow z-3"
+            [ngClass]="{
+              'text-bg-success': index.health === 'green',
+              'text-bg-warning': index.health === 'yellow',
+              'text-bg-danger': index.health === 'red'
+            }"
+          >
+            {{ index?.health }}
+          </div>
+          <h5>
+            {{
+              index?.name
+                ?.replace(this.indexName + "-", "")
+                ?.replace("-errors", "")
+            }}
+          </h5>
+        </div>
+        <div class="card-body">
+          <!-- New Alert Icon -->
+          <div *ngIf="index?.newDocCountAler" class="alert-icon text-center">
+            <i
+              style="font-size: 30px"
+              class="bi bi-exclamation-square-fill text-danger"
+            ></i>
+            <!-- Bell icon indicating new data -->
+          </div>
+          <p class="text-center">Number of Errors:</p>
+          <h1 class="text-center text-danger mb-3">
+            <strong>{{ index?.docCount }}</strong>
+          </h1>
+          <p class="position-absolute bottom-0 end-0 me-2">
+            <strong>File Size:</strong> {{ index?.fileSize }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #noData>
+  <p
+    class="position-absolute top-50 start-50 translate-middle p-2 border border-2 border-danger rounded-2 shadow"
+  >
+    No indices found matching the pattern.
+  </p>
+</ng-template>
+
+<div *ngIf="error" class="alert alert-danger">{{ error }}</div>

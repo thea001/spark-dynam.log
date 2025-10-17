@@ -1,0 +1,354 @@
+<!-- Sidebar Start -->
+<aside class="left-sidebar">
+  <!-- Sidebar scroll-->
+  <div>
+    <div class="brand-logo d-flex align-items-center justify-content-between">
+      <div
+        class="d-flex align-items-center justify-content-center w-100"
+        style="cursor: pointer"
+        routerLink="/"
+      >
+        <i class="ti ti-device-sd-card text-warning"></i>
+        <div class="logo_name text-warning">dynam<strong>.Log</strong></div>
+      </div>
+    </div>
+    <!-- Sidebar navigation-->
+    <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
+      <ul id="sidebarnav">
+        <li class="nav-small-cap align-items-center d-flex">
+          <i class="ti ti-server-cog me-1 fs-4"></i>
+          <span class="hide-menu">Data Center List</span>
+        </li>
+        <li class="sidebar-item" *ngFor="let pattern of patterns">
+          <a
+            (click)="fetchIndices(pattern?._source?.pattern_name)"
+            class="sidebar-link"
+            aria-expanded="false"
+            data-bs-toggle="collapse"
+            href="#{{ pattern?._id }}"
+            aria-controls="dataCenter1"
+          >
+            <span>
+              <i class="ti ti-cloud-computing"></i>
+            </span>
+            <span
+              class="hide-menu d-flex justify-content-between w-100 align-items-center"
+              >{{ pattern?._source?.pattern_name?.split("-")?.join(" ")
+              }}<i
+                (click)="to_update_pattern = pattern"
+                data-bs-toggle="modal"
+                data-bs-target="#update-patternModal"
+                class="btn btn-danger btn-sm me-2 shadow"
+                class="ti ti-chart-dots-2 btn btn-outline-success btn-sm p-2 py-0"
+              ></i
+            ></span>
+          </a>
+          <ul
+            class="collapse list-unstyled ms-3"
+            data-parent="#accordion"
+            id="{{ pattern?._id }}"
+          >
+            <ng-container *ngFor="let indexs of indicesList">
+              <li
+                *ngIf="indexs?.index?.endsWith('logs')"
+                class="sidebar-item border border-1 rounded border-success shadow mt-2 d-flex align-items-center"
+              >
+                <a
+                  class="sidebar-link"
+                  routerLink="../dashobard-normal/{{ pattern?._id }}"
+                  style="width: 100%; text-wrap: wrap"
+                >
+                  {{
+                    indexs?.index
+                      ?.replace(
+                        (pattern?._source?.pattern_name || "") + "-",
+                        ""
+                      )
+                      ?.split("-")
+                      ?.join(" ")
+                  }}
+                </a>
+
+                <button
+                  (click)="to_delete_index = indexs"
+                  data-bs-toggle="modal"
+                  data-bs-target="#delete-modal"
+                  class="btn btn-danger btn-sm me-2 shadow"
+                >
+                  <i class="ti ti-trash"></i>
+                </button>
+              </li>
+            </ng-container>
+            <hr />
+            <ng-container *ngFor="let indexs of indicesList">
+              <li
+                *ngIf="indexs?.index?.endsWith('errors')"
+                class="sidebar-item border border-1 rounded border-danger shadow mt-2 d-flex align-items-center"
+              >
+                <a
+                  class="sidebar-link"
+                  routerLink="../dashobard-errors/{{ pattern?._id }}/{{
+                    indexs?.index
+                  }}"
+                  style="width: 100%; text-wrap: wrap"
+                >
+                  {{
+                    indexs?.index
+                      ?.replace(
+                        (pattern?._source?.pattern_name || "") + "-",
+                        ""
+                      )
+                      ?.split("-")
+                      ?.join(" ")
+                  }}
+                </a>
+
+                <hr />
+
+                <button
+                  (click)="to_delete_index = indexs"
+                  data-bs-toggle="modal"
+                  data-bs-target="#delete-modal"
+                  class="btn btn-danger btn-sm me-2 shadow"
+                >
+                  <i class="ti ti-trash"></i>
+                </button>
+              </li>
+            </ng-container>
+            <div class="w-100 d-flex justify-content-center mt-2">
+              <a
+                routerLink="../error-boxes/{{ pattern?._source?.pattern_name }}"
+                class="btn btn-outline-danger btn-sm"
+                >general error infos</a
+              >
+            </div>
+            <button
+              class="btn btn-outline-warning w-100 my-2"
+              data-bs-toggle="modal"
+              data-bs-target="#file-modal"
+              (click)="this.pattern_name = pattern?._source?.pattern_name"
+            >
+              + file log
+            </button>
+          </ul>
+        </li>
+
+        <button
+          class="btn btn-outline-success mt-3 w-100"
+          data-bs-toggle="modal"
+          data-bs-target="#patternModal"
+        >
+          + data center
+        </button>
+      </ul>
+    </nav>
+    <!-- End Sidebar navigation -->
+  </div>
+  <!-- End Sidebar scroll-->
+</aside>
+<!--  Sidebar End -->
+<app-pattern></app-pattern>
+
+<div
+  class="modal fade"
+  id="file-modal"
+  tabindex="-1"
+  aria-labelledby="fileLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="fileLabel">Add Log File</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          id="close-file-modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <!-- Angular Form -->
+        <form #fileForm="ngForm" (ngSubmit)="onSendFile(fileForm)">
+          <h3 class="text-secondary">Pattern Name : {{ pattern_name }}</h3>
+          <div class="mb-3">
+            <label for="file" class="form-label"
+              >Select a file .log
+              <small
+                >(example : hadoop-hdfs-datanode-mesos-05.log)</small
+              ></label
+            >
+            <input
+              type="file"
+              class="form-control"
+              id="file"
+              name="logFile"
+              placeholder="Enter your logs file"
+              required
+              ngModel
+            />
+          </div>
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-danger"
+              data-bs-dismiss="modal"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="fileForm.invalid"
+            >
+              Upload File
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="delete-modal"
+  tabindex="-1"
+  aria-labelledby="delete-modal-Label"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="delete-modal-Label">Delete Message</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          id="close-delete-modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <!-- Angular Form -->
+        <form #fileForm="ngForm" (ngSubmit)="onSendFile(fileForm)">
+          <h3>
+            Are you sure you want to delete the index:
+            <strong
+              ><span class="text-danger">
+                {{ to_delete_index?.index }}</span
+              ></strong
+            >
+          </h3>
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-success"
+              data-bs-dismiss="modal"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              class="btn btn-danger"
+              (click)="deleteIndex()"
+            >
+              Delete index
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="update-patternModal"
+  tabindex="-1"
+  aria-labelledby="update-patternModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="update-patternModalLabel">
+          Add Source of Dashboard Embeded Code
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          id="close-patter-update-modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <!-- Angular Form -->
+        <form
+          #patternUpdateForm="ngForm"
+          (ngSubmit)="onUpdatePattern(patternUpdateForm)"
+        >
+          <div class="mb-3">
+            <label for="normal_dashboard" class="form-label"
+              >Normal Dashboard Lik : exemple
+              <small
+                >src=<span class="text-warning"
+                  >"http://localhost:5601/app/dashboards#/view/08564542-3ed7...."</span
+                ></small
+              ></label
+            >
+            <textarea
+              class="form-control"
+              id="normal_dashboard"
+              name="normal_dashboard"
+              rows="3"
+              placeholder="http://localhost:5601/app/dashboards#/view/08564542-3ed7...."
+              required
+              ngModel
+            ></textarea>
+          </div>
+
+          <div class="mb-3">
+            <label for="errors_dashboard" class="form-label"
+              >Errors Dashboard Lik : exemple
+              <small
+                >src=<span class="text-danger"
+                  >"http://localhost:5601/app/dashboards#/view/08564542-3ed7...."</span
+                ></small
+              ></label
+            >
+            <textarea
+              class="form-control"
+              id="errors_dashboard"
+              name="errors_dashboard"
+              rows="3"
+              placeholder="http://localhost:5601/app/dashboards#/view/08564542-3ed7...."
+              ngModel
+            ></textarea>
+          </div>
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-danger"
+              data-bs-dismiss="modal"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="patternUpdateForm.invalid"
+            >
+              Save Dashboard
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

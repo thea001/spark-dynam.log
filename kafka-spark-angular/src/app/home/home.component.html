@@ -1,0 +1,95 @@
+<div class="p-3">
+  <div class="d-flex justify-content-center align-items-center">
+    <div
+      class="card d-flex justify-content-center align-items-center shadow-lg p-2 border border-2"
+      style="border: 3px solid #3357b1 !important"
+    >
+      <img
+        src="/assets/images/ihec_logo_dark.png"
+        width="250"
+        class="rounded-3 shadow pe-3 mt-3"
+        alt=""
+      />
+
+      <div class="card-body">
+        <p class="card-text">
+          This project is a dynamic log management system that allows you to
+          monitor and analyze logs and errors for different patterns (e.g.,
+          data-center configurations). It integrates with Elasticsearch for log
+          storage and Kibana for visualizing dashboards. The key features
+          include:
+        </p>
+        <ul class="list-group list-group-flush mb-4">
+          <li class="list-group-item">
+            Dynamic configuration for different patterns (e.g.,
+            <code>data-center-1</code>, <code>data-center-2</code>).
+          </li>
+          <li class="list-group-item">
+            Customizable log filters to extract meaningful data from log files.
+          </li>
+          <li class="list-group-item">
+            Error filters to identify and track specific errors in the logs.
+          </li>
+          <li class="list-group-item">
+            Integration with Kibana for real-time dashboards (errors and log
+            dashboards).
+          </li>
+          <li class="list-group-item">
+            Easy addition of log files for monitoring against predefined
+            filters.
+          </li>
+        </ul>
+        <p class="card-text">
+          Below is a step-by-step guide to configure and use the system
+          effectively:
+        </p>
+        <ol class="list-group list-group-numbered mb-4">
+          <li class="list-group-item">
+            <strong>Add a Pattern:</strong> Start by adding a new pattern (e.g.,
+            <code>data-center-1</code>). Each pattern corresponds to a unique
+            log source or configuration.
+          </li>
+          <li class="list-group-item">
+            <strong>Define Log Filters:</strong> Set up filters for logs (e.g.,
+            <code>Date</code>, <code>Time</code>, <code>Level</code>,
+            <code>Component</code>, and <code>Content</code>) to extract
+            specific information from your log files.
+          </li>
+          <li class="list-group-item">
+            <strong>Define Error Filters:</strong> Configure error filters to
+            identify key error patterns (e.g.,
+            <code>java\\.\\S+Exception</code>,
+            <code>Call From ([a-zA-Z0-9.-]+)</code>).
+          </li>
+          <li class="list-group-item">
+            <strong>Add a Log File:</strong> Upload a log file that corresponds
+            to the defined pattern and filters. The system will automatically
+            parse the file and identify errors and logs based on the configured
+            filters.
+          </li>
+          <li class="list-group-item">
+            <strong>Configure Dashboards:</strong> Add Kibana dashboard links
+            for both logs and errors visualization. Example:
+            <ul>
+              <li>
+                <strong>Normal Dashboard:</strong> For logs visualization.
+              </li>
+              <li><strong>Errors Dashboard:</strong> For error monitoring.</li>
+            </ul>
+          </li>
+          <li class="list-group-item">
+            <strong>Monitor and Analyze:</strong> Use the embedded Kibana
+            dashboards to analyze real-time log and error data, ensuring smooth
+            operation and quick troubleshooting.
+          </li>
+        </ol>
+        <p class="text-muted">
+          With this project, you can centralize and monitor logs for
+          <span class="text-warning">
+            different data centers or systems dynamically</span
+          >, ensuring efficient log analysis and error tracking.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
